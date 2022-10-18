@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 """
 Creating a custom model manager to retrieve all posts that have a published status 
@@ -21,7 +22,8 @@ class Post(models.Model):
         PUBLISHED = 'PB', 'Published'
 
     title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250)
+    slug = models.SlugField(max_length=250,
+        unique_for_date='publish')
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now) # This will be the date and time when the post was published
     created = models.DateTimeField(auto_now_add=True) # This will be the date and time when the post was created
@@ -47,3 +49,15 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    """
+    - Defining the get_absolute_url() method on the Post model: This method will return the canonical URL for a post.
+    """
+    def get_absolute_url(self):
+        return reverse('blog:post_detail', 
+            args=[self.publish.year,
+                self.publish.month,
+                self.publish.day,
+                self.slug])
+
+    
