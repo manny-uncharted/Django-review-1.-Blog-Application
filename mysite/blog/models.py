@@ -2,7 +2,12 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-
+"""
+Creating a custom model manager to retrieve all posts that have a published status 
+"""
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status=Post.Status.PUBLISHED)
 
 # Defining a post model that would allow us to store the posts in the database
 class Post(models.Model):
@@ -23,6 +28,11 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True) # This will be the date and time when the post was updated
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts') # This is the author of each post. A many-to-one relationship between posts and the user. The related_name allows us to specify the name of the reverse relationship from the User model back to the Post model. This is the name that we will use to access the posts of a given user.
+
+
+    # Defining the default manager for the Post model
+    objects = models.Manager()
+    published = PublishedManager() # Our Custom manager
 
 
     """
