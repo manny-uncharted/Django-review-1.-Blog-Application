@@ -1,1 +1,2 @@
-# Django-review-1.-Blog-Application
+# Django review 1: Building a Blog Application.
+
