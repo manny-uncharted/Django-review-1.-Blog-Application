@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from taggit.managers import TaggableManager
 
 """
 Creating a custom model manager to retrieve all posts that have a published status 
@@ -30,6 +31,7 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True) # This will be the date and time when the post was updated
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts') # This is the author of each post. A many-to-one relationship between posts and the user. The related_name allows us to specify the name of the reverse relationship from the User model back to the Post model. This is the name that we will use to access the posts of a given user.
+    tags = TaggableManager() # This allows you to add, retrieve and remove tags from Post objects.
 
 
     # Defining the default manager for the Post model
@@ -72,6 +74,8 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
+
+   
 
     class Meta:
         ordering = ['created']
