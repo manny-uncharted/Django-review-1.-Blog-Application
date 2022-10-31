@@ -17,12 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.sitemaps.views import sitemap
 from blog.sitemaps import PostSitemap
+from blog.views import home
+
 
 sitemaps = {
     'posts': PostSitemap(),
 }
 
 urlpatterns = [
+    path('', home, name='home'),
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls', namespace='blog')), # This is the path to the blog app
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.view.sitemap')

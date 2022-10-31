@@ -10,6 +10,14 @@ from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.contrib.postgres.search import TrigramSimilarity
 
 
+def home(request):
+    # post = Post.category.all()
+
+    return render(request,
+            'home/index.html')
+
+
+
 """
 - Creating a view that would allow us to display all published posts
 """

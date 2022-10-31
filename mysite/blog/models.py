@@ -11,10 +11,16 @@ class PublishedManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(status=Post.Status.PUBLISHED)
 
+class Categories(models.TextChoices):
+    AFRICAN_STORY = 'AS', 'African_Story'
+    MYSTORY_YOURSTORY = 'MYS2', 'MyStory_YourStory'
+    OUR_DISCOVERIES = 'OD', 'Our_Discoveries'
+    TECH_STORIES = 'TS', 'Tech_Stories'
+    LIFESTYLE = 'L', 'Lifestyle'
+    ARTICLES = 'A', 'Articles'
+
 # Defining a post model that would allow us to store the posts in the database
 class Post(models.Model):
-
-
     """
     Adding a status field to the Post model: This field would allow us to save posts as drafts and publish them later. Allows us to manage the status of blog posts.
     """
@@ -26,6 +32,7 @@ class Post(models.Model):
     slug = models.SlugField(max_length=250,
         unique_for_date='publish')
     body = models.TextField()
+    category = models.CharField(max_length=5, choices=Categories.choices, default=Categories.OUR_DISCOVERIES)
     publish = models.DateTimeField(default=timezone.now) # This will be the date and time when the post was published
     created = models.DateTimeField(auto_now_add=True) # This will be the date and time when the post was created
     updated = models.DateTimeField(auto_now=True) # This will be the date and time when the post was updated
