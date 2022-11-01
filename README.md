@@ -4,3 +4,4 @@ This project is just a refresher on the latest practices in Django 4.0 developme
 
 I created this project as a template for my own portfolio and blog
 
+This project is going to serve as my blog site.
